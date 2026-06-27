@@ -1,2 +1,2 @@
 # DDonas
-Tu sitio para encontrar las mejores mi ido as de Santiago de Cuba 
+Tu sitio para encontrar las mejores minidonas de Santiago de Cuba 
