@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>DDonas | Pedido Inteligente</title>
+<title>DDonas | iOS Segmented Control</title>
 
 <style>
 :root{
   --accent:#ff3f86;
-  --accent2:#6c5ce7;
   --bg:linear-gradient(180deg,#fff,#ffe6f1,#e9ddff);
   --card:rgba(255,255,255,.75);
   --shadow:0 20px 50px rgba(0,0,0,.10);
@@ -24,41 +23,87 @@
 body{
   background:var(--bg);
   color:#1c1c1e;
-  padding:30px 15px;
+  padding:40px 20px;
 }
 
+/* HEADER */
 h1{
   text-align:center;
   font-family:"Brush Script MT","Segoe Script",cursive;
-  color:var(--accent);
   font-size:54px;
+  color:var(--accent);
 }
 
-/* LAYOUT */
-.container{
+/* SEGMENTED CONTROL CONTAINER */
+.segmented{
+  position:relative;
+  display:flex;
+  max-width:520px;
+  margin:30px auto;
+  padding:6px;
+  border-radius:999px;
+  background:rgba(255,255,255,.6);
+  backdrop-filter:blur(20px);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+/* SLIDER ANIMADO (LA MAGIA) */
+.slider{
+  position:absolute;
+  top:6px;
+  left:6px;
+  height:calc(100% - 12px);
+  width:20%;
+  border-radius:999px;
+  background:var(--accent);
+  transition:transform .45s cubic-bezier(.2,.9,.2,1), width .45s cubic-bezier(.2,.9,.2,1);
+  box-shadow:0 10px 25px rgba(255,63,134,.25);
+}
+
+/* BOTONES */
+.segment{
+  flex:1;
+  text-align:center;
+  padding:10px 8px;
+  z-index:2;
+  cursor:pointer;
+  font-size:14px;
+  user-select:none;
+  transition:.25s;
+  color:#333;
+}
+
+.segment.active{
+  color:#fff;
+  font-weight:600;
+}
+
+/* GRID */
+.grid{
   max-width:900px;
-  margin:20px auto;
+  margin:30px auto;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:18px;
+  animation:fade .35s ease;
 }
 
-/* CARD */
+@keyframes fade{
+  from{opacity:0; transform:translateY(10px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
 .card{
   background:var(--card);
   border-radius:20px;
   padding:15px;
   box-shadow:var(--shadow);
   backdrop-filter:blur(20px);
-  transition:.3s;
-}
-
-.card:hover{
-  transform:translateY(-6px);
 }
 
 .img{
-  height:120px;
+  height:140px;
   border-radius:16px;
   background:linear-gradient(135deg,#ffe0ec,#e6ddff);
   display:flex;
@@ -67,73 +112,39 @@ h1{
   font-size:40px;
 }
 
-.title{
-  margin-top:10px;
-  font-weight:600;
-}
-
-/* CONTROLES */
-.controls{
-  margin-top:10px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.qty{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
 button{
-  border:none;
-  cursor:pointer;
-  border-radius:12px;
-  transition:.2s;
-}
-
-.btn-small{
-  width:28px;
-  height:28px;
-  background:#eee;
-  font-size:16px;
-}
-
-.btn-small:hover{
-  background:#ddd;
-}
-
-.count{
-  min-width:20px;
-  text-align:center;
-}
-
-/* WHATSAPP CTA */
-.cta{
-  max-width:600px;
-  margin:30px auto;
-  text-align:center;
-}
-
-.bigbtn{
-  display:inline-flex;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
-  padding:14px 18px;
-  border-radius:16px;
-  background:#25d366;
-  color:#fff;
-  font-weight:600;
-  text-decoration:none;
-  box-shadow:var(--shadow);
-}
-
-.summary{
   margin-top:10px;
-  font-size:14px;
-  color:#444;
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:14px;
+  background:var(--accent);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s;
+}
+
+button:hover{
+  transform:scale(1.03);
+}
+
+/* FLOAT */
+.float{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:#25d366;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:26px;
+  box-shadow:var(--shadow);
+  text-decoration:none;
 }
 </style>
 </head>
@@ -142,115 +153,89 @@ button{
 
 <h1>DDonas</h1>
 
-<div class="container">
+<!-- SEGMENTED CONTROL -->
+<div class="segmented" id="segmented">
 
-  <div class="card">
-    <div class="img">🍫</div>
-    <div class="title">Choco Velvet</div>
+  <div class="slider" id="slider"></div>
 
-    <div class="controls">
-      <div class="qty">
-        <button class="btn-small" onclick="changeQty('choco',-1)">-</button>
-        <div id="chocoQty">0</div>
-        <button class="btn-small" onclick="changeQty('choco',1)">+</button>
-      </div>
+  <div class="segment active" onclick="setTab(0)">Chocolate</div>
+  <div class="segment" onclick="setTab(1)">Vainilla</div>
+  <div class="segment" onclick="setTab(2)">Glaseado</div>
+  <div class="segment" onclick="setTab(3)">Mixto</div>
+  <div class="segment" onclick="setTab(4)">Otros</div>
+
+</div>
+
+<!-- CONTENT -->
+<div id="content">
+
+  <div class="grid" id="tab0">
+    <div class="card">
+      <div class="img">🍫</div>
+      <h3>Choco Velvet</h3>
+      <button>Elegir</button>
     </div>
   </div>
 
-  <div class="card">
-    <div class="img">🍦</div>
-    <div class="title">Vainilla Cloud</div>
-
-    <div class="controls">
-      <div class="qty">
-        <button class="btn-small" onclick="changeQty('vainilla',-1)">-</button>
-        <div id="vainillaQty">0</div>
-        <button class="btn-small" onclick="changeQty('vainilla',1)">+</button>
-      </div>
+  <div class="grid" id="tab1" style="display:none">
+    <div class="card">
+      <div class="img">🍦</div>
+      <h3>Vainilla Cloud</h3>
+      <button>Elegir</button>
     </div>
   </div>
 
-  <div class="card">
-    <div class="img">🍓</div>
-    <div class="title">Glaseado Pink</div>
+  <div class="grid" id="tab2" style="display:none">
+    <div class="card">
+      <div class="img">🍓</div>
+      <h3>Glaseado Pink</h3>
+      <button>Elegir</button>
+    </div>
+  </div>
 
-    <div class="controls">
-      <div class="qty">
-        <button class="btn-small" onclick="changeQty('glaseado',-1)">-</button>
-        <div id="glaseadoQty">0</div>
-        <button class="btn-small" onclick="changeQty('glaseado',1)">+</button>
-      </div>
+  <div class="grid" id="tab3" style="display:none">
+    <div class="card">
+      <div class="img">🍩</div>
+      <h3>Mix Deluxe</h3>
+      <button>Elegir</button>
+    </div>
+  </div>
+
+  <div class="grid" id="tab4" style="display:none">
+    <div class="card">
+      <div class="img">✨</div>
+      <h3>Edición Chef</h3>
+      <button>Elegir</button>
     </div>
   </div>
 
 </div>
 
-<div class="cta">
-
-  <a id="waBtn" class="bigbtn" target="_blank">Pedir por WhatsApp</a>
-
-  <div class="summary" id="summary">
-    Selecciona tus minidonas 🍩
-  </div>
-
-</div>
+<a class="float">💬</a>
 
 <script>
 
-const phone = "55123300";
+const slider = document.getElementById("slider");
+const segments = document.querySelectorAll(".segment");
 
-let cart = {
-  choco:0,
-  vainilla:0,
-  glaseado:0
-};
+function setTab(i){
 
-const names = {
-  choco:"Choco Velvet",
-  vainilla:"Vainilla Cloud",
-  glaseado:"Glaseado Pink"
-};
-
-function changeQty(item, val){
-
-  cart[item] += val;
-
-  if(cart[item] < 0) cart[item] = 0;
-
-  document.getElementById(item+"Qty").innerText = cart[item];
-
-  updateWhatsApp();
-
-}
-
-function updateWhatsApp(){
-
-  let message = "Hola, quiero pedir:\n\n";
-  let total = 0;
-
-  for(let key in cart){
-    if(cart[key] > 0){
-      message += `• ${names[key]} x${cart[key]}\n`;
-      total += cart[key];
-    }
+  // tabs content
+  for(let j=0;j<5;j++){
+    document.getElementById("tab"+j).style.display = (j===i) ? "grid" : "none";
   }
 
-  if(total === 0){
-    document.getElementById("summary").innerText = "Selecciona tus minidonas 🍩";
-    document.getElementById("waBtn").href = "#";
-    return;
-  }
+  // active state text
+  segments.forEach(s => s.classList.remove("active"));
+  segments[i].classList.add("active");
 
-  message += "\nGracias 💖";
+  // 🔥 ANIMACIÓN REAL TIPO iOS (SLIDER FLUIDO)
+  const width = 100 / segments.length;
 
-  document.getElementById("summary").innerText = `Total de unidades: ${total}`;
-
-  document.getElementById("waBtn").href =
-    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  slider.style.width = width + "%";
+  slider.style.transform = `translateX(${i * 100}%)`;
 
 }
-
-updateWhatsApp();
 
 </script>
 
