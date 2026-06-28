@@ -1,28 +1,59 @@
 /* =========================
-   TABS SYSTEM
+   VARIABLES GLOBALES
 ========================= */
 
 const tabs = document.querySelectorAll(".tab");
 const contents = document.querySelectorAll(".content");
+const links = document.querySelectorAll(".navbar a");
+
+const waContainer = document.querySelector(".wa-container");
+const waMain = document.getElementById("waMain");
+
+const toggle = document.getElementById("darkToggle");
+
+/* =========================
+   MODO OSCURO (PERSISTENTE)
+========================= */
+
+// cargar estado guardado
+if (toggle && localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+    toggle.checked = true;
+}
+
+// cambiar modo
+if (toggle) {
+    toggle.addEventListener("change", () => {
+
+        document.body.classList.toggle("dark");
+
+        if (toggle.checked) {
+            localStorage.setItem("theme", "dark");
+        } else {
+            localStorage.setItem("theme", "light");
+        }
+
+    });
+}
+
+/* =========================
+   TABS SYSTEM
+========================= */
 
 tabs.forEach(tab => {
 
     tab.addEventListener("click", () => {
 
-        // quitar activo de todos los tabs
         tabs.forEach(t => t.classList.remove("active"));
 
-        // activar tab actual
         tab.classList.add("active");
 
         const target = tab.getAttribute("data-tab");
 
-        // ocultar todos los contenidos
         contents.forEach(content => {
             content.classList.remove("active");
         });
 
-        // mostrar contenido correspondiente
         document.getElementById(target).classList.add("active");
 
     });
@@ -32,8 +63,6 @@ tabs.forEach(tab => {
 /* =========================
    SCROLL SUAVE NAVBAR
 ========================= */
-
-const links = document.querySelectorAll(".navbar a");
 
 links.forEach(link => {
 
@@ -59,17 +88,22 @@ links.forEach(link => {
 });
 
 /* =========================
+   WHATSAPP FLOAT MENU
+========================= */
+
+if (waMain && waContainer) {
+    waMain.addEventListener("click", () => {
+        waContainer.classList.toggle("active");
+    });
+}
+
+/* =========================
    ANIMACIÓN AL CARGAR
 ========================= */
 
 window.addEventListener("load", () => {
 
     document.body.style.opacity = "1";
+    document.body.style.transition = "background .5s ease, color .5s ease";
 
-});
-const waContainer = document.querySelector(".wa-container");
-const waMain = document.getElementById("waMain");
-
-waMain.addEventListener("click", () => {
-    waContainer.classList.toggle("active");
 });
