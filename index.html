@@ -5,34 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DDonas | Mini Donas Artesanales</title>
 
-  <meta name="description" content="Mini donas artesanales frescas, suaves y deliciosas. Haz tu pedido fácil por WhatsApp." />
+  <meta name="description" content="Mini donas artesanales frescas y deliciosas. Pide fácil por WhatsApp." />
   <meta property="og:title" content="DDonas - Mini Donas Artesanales" />
-  <meta property="og:description" content="Pequeños sabores, grandes antojos. Pide ahora por WhatsApp." />
+  <meta property="og:description" content="Pequeños sabores, grandes antojos. Pedido directo por WhatsApp." />
   <meta property="og:type" content="website" />
-
-  <!-- Favicon placeholder -->
-  <!-- <link rel="icon" href="favicon.ico"> -->
 
   <style>
     :root{
-      --bg:#f7f7fb;
+      --bg1:#fff;
+      --bg2:#ffe4ef;
+      --bg3:#e8ddff;
       --card:#ffffff;
       --text:#1c1c1e;
       --muted:#6b6b73;
-      --accent:#ff6b9a;
+      --accent:#ff4d8d;
       --accent2:#7c5cff;
       --shadow:0 10px 30px rgba(0,0,0,.08);
       --radius:18px;
     }
 
-    *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;}
-    body{
-      background:linear-gradient(180deg,#fff, var(--bg));
-      color:var(--text);
-      overflow-x:hidden;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
     }
 
     html{scroll-behavior:smooth;}
+
+    body{
+      background:linear-gradient(180deg,var(--bg1),var(--bg2),var(--bg3));
+      color:var(--text);
+      overflow-x:hidden;
+    }
 
     header{
       padding:70px 20px 30px;
@@ -48,10 +53,9 @@
     .slogan{
       margin-top:10px;
       color:var(--muted);
-      font-size:16px;
     }
 
-    .hero-box{
+    .hero{
       margin:25px auto;
       max-width:420px;
       background:var(--card);
@@ -70,6 +74,7 @@
       font-size:40px;
     }
 
+    /* BOTONES IOS */
     .btn{
       display:inline-block;
       margin-top:15px;
@@ -79,15 +84,18 @@
       color:white;
       text-decoration:none;
       font-weight:600;
-      transition:.3s;
+      transition:all .25s ease;
+      border:none;
+      cursor:pointer;
     }
 
-    .btn:hover{transform:scale(1.05);}
+    .btn:hover{
+      transform:translateY(-2px) scale(1.02);
+      box-shadow:0 12px 25px rgba(255,77,141,.25);
+    }
 
-    .sub{
-      margin-top:10px;
-      font-size:13px;
-      color:var(--muted);
+    .btn.secondary{
+      background:var(--accent2);
     }
 
     section{
@@ -96,10 +104,7 @@
       margin:auto;
     }
 
-    h2{
-      font-size:22px;
-      margin-bottom:15px;
-    }
+    h2{margin-bottom:15px;}
 
     /* TABS */
     .tabs{
@@ -112,15 +117,17 @@
     .tab{
       padding:10px 14px;
       border-radius:999px;
-      background:#eee;
+      background:#fff;
       cursor:pointer;
-      font-size:14px;
-      transition:.3s;
+      transition:.25s;
+      box-shadow:0 5px 15px rgba(0,0,0,.05);
+      user-select:none;
     }
 
     .tab.active{
       background:var(--accent);
       color:#fff;
+      transform:scale(1.05);
     }
 
     .grid{
@@ -134,10 +141,12 @@
       border-radius:16px;
       padding:15px;
       box-shadow:var(--shadow);
-      transition:.3s;
+      transition:.25s;
     }
 
-    .card:hover{transform:translateY(-4px);}
+    .card:hover{
+      transform:translateY(-5px);
+    }
 
     .tag{
       font-size:11px;
@@ -154,36 +163,43 @@
       font-weight:700;
     }
 
-    /* BENEFITS */
-    .benefits{
-      display:grid;
-      gap:12px;
+    .select-btn{
+      margin-top:10px;
+      width:100%;
+      padding:10px;
+      border-radius:12px;
+      border:none;
+      background:var(--accent);
+      color:#fff;
+      cursor:pointer;
+      transition:.25s;
+      font-weight:600;
     }
 
-    .benefit{
-      background:var(--card);
-      padding:15px;
-      border-radius:16px;
+    .select-btn:hover{
+      transform:scale(1.03);
+    }
+
+    .selected-banner{
+      position:sticky;
+      bottom:80px;
+      margin:20px auto;
+      max-width:500px;
+      background:#fff;
       box-shadow:var(--shadow);
+      border-radius:16px;
+      padding:15px;
+      display:none;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
     }
 
-    /* CTA */
     .cta{
       text-align:center;
       background:linear-gradient(135deg,#ffe0ec,#e6ddff);
       border-radius:20px;
       padding:40px 20px;
-    }
-
-    .cta a{
-      margin-top:15px;
-      display:inline-block;
-      background:var(--accent2);
-      color:#fff;
-      padding:14px 20px;
-      border-radius:14px;
-      text-decoration:none;
-      font-weight:600;
     }
 
     footer{
@@ -193,20 +209,19 @@
       font-size:13px;
     }
 
-    /* FLOAT WHATSAPP */
     .float{
       position:fixed;
       right:18px;
       bottom:18px;
-      background:#25d366;
       width:56px;
       height:56px;
       border-radius:50%;
+      background:#25d366;
       display:flex;
       align-items:center;
       justify-content:center;
-      color:#fff;
       font-size:26px;
+      color:#fff;
       box-shadow:var(--shadow);
       text-decoration:none;
     }
@@ -217,14 +232,11 @@
 
 <header>
   <div class="logo">DDonas</div>
-  <div class="slogan">“Pequeños sabores, grandes antojos.”</div>
+  <div class="slogan">Pequeños sabores, grandes antojos</div>
 
-  <div class="hero-box">
+  <div class="hero">
     <div class="hero-img">🍩</div>
-    <a class="btn" href="https://wa.me/55123300?text=Hola%20quiero%20hacer%20un%20pedido%20de%20minidonas" target="_blank">
-      Ordena por WhatsApp
-    </a>
-    <div class="sub">Hechas al momento • Sabor artesanal • Entrega rápida</div>
+    <a class="btn" id="mainWA" target="_blank">Ordenar por WhatsApp</a>
   </div>
 </header>
 
@@ -240,43 +252,69 @@
   </div>
 
   <div id="choco" class="grid">
-    <div class="card"><span class="tag">Favorito</span><h3>Choco Clásica</h3><p>Suave y cubierta de chocolate.</p><div class="price">$1.00</div></div>
-    <div class="card"><h3>Doble Cacao</h3><p>Intenso sabor a cacao.</p><div class="price">$1.20</div></div>
+    <div class="card">
+      <span class="tag">Favorito</span>
+      <h3>Choco Clásica</h3>
+      <p>Chocolate suave artesanal</p>
+      <div class="price">$1.00</div>
+      <button class="select-btn" onclick="selectDonut('Choco Clásica')">Elegir</button>
+    </div>
+
+    <div class="card">
+      <h3>Doble Cacao</h3>
+      <p>Intenso sabor chocolate</p>
+      <div class="price">$1.20</div>
+      <button class="select-btn" onclick="selectDonut('Doble Cacao')">Elegir</button>
+    </div>
   </div>
 
   <div id="vainilla" class="grid" style="display:none">
-    <div class="card"><h3>Vainilla Soft</h3><p>Suave y aromática.</p><div class="price">$1.00</div></div>
+    <div class="card">
+      <h3>Vainilla Soft</h3>
+      <p>Suave y aromática</p>
+      <div class="price">$1.00</div>
+      <button class="select-btn" onclick="selectDonut('Vainilla Soft')">Elegir</button>
+    </div>
   </div>
 
   <div id="glaseados" class="grid" style="display:none">
-    <div class="card"><span class="tag">Nuevo</span><h3>Glaseado Rosa</h3><p>Dulce y brillante.</p><div class="price">$1.10</div></div>
+    <div class="card">
+      <span class="tag">Nuevo</span>
+      <h3>Glaseado Rosa</h3>
+      <p>Dulce y brillante</p>
+      <div class="price">$1.10</div>
+      <button class="select-btn" onclick="selectDonut('Glaseado Rosa')">Elegir</button>
+    </div>
   </div>
 
   <div id="mixto" class="grid" style="display:none">
-    <div class="card"><h3>Mix Especial</h3><p>Variedad de sabores.</p><div class="price">$1.30</div></div>
+    <div class="card">
+      <h3>Mix Especial</h3>
+      <p>Variedad de sabores</p>
+      <div class="price">$1.30</div>
+      <button class="select-btn" onclick="selectDonut('Mix Especial')">Elegir</button>
+    </div>
   </div>
 
   <div id="otros" class="grid" style="display:none">
-    <div class="card"><h3>Edición Especial</h3><p>Sorpresa del día.</p><div class="price">$1.50</div></div>
+    <div class="card">
+      <h3>Edición Especial</h3>
+      <p>Sorpresa del día</p>
+      <div class="price">$1.50</div>
+      <button class="select-btn" onclick="selectDonut('Edición Especial')">Elegir</button>
+    </div>
   </div>
 </section>
 
-<section>
-  <h2>Beneficios</h2>
-  <div class="benefits">
-    <div class="benefit">✨ Frescura garantizada</div>
-    <div class="benefit">🎁 Perfecto para regalos</div>
-    <div class="benefit">🎨 Personalización disponible</div>
-    <div class="benefit">⚡ Pedido rápido por WhatsApp</div>
-  </div>
-</section>
+<div class="selected-banner" id="banner">
+  <div id="selectedText">Nada seleccionado</div>
+  <a class="btn secondary" id="waBtn" target="_blank">Pedir ahora</a>
+</div>
 
 <section class="cta">
-  <h2>Haz tu pedido ahora</h2>
-  <p>Escríbenos y recibe tus minidonas frescas</p>
-  <a href="https://wa.me/55123300?text=Hola%20quiero%20hacer%20un%20pedido%20de%20minidonas" target="_blank">
-    Pedir por WhatsApp
-  </a>
+  <h2>Pedido directo</h2>
+  <p>Confirma tu selección por WhatsApp</p>
+  <a class="btn secondary" id="ctaWA" target="_blank">Abrir chat</a>
 </section>
 
 <footer>
@@ -284,17 +322,47 @@
   📍 Reparto Rajayoga, Santiago de Cuba
 </footer>
 
-<a class="float" href="https://wa.me/55123300?text=Hola%20quiero%20hacer%20un%20pedido%20de%20minidonas" target="_blank">💬</a>
+<a class="float" id="floatWA" target="_blank">💬</a>
 
 <script>
+let selected = null;
+const phone = "55123300";
+
+function waLink(item){
+  const text = encodeURIComponent("Hola, quiero pedir: " + item);
+  return `https://wa.me/${phone}?text=${text}`;
+}
+
+function updateLinks(){
+  const baseText = selected ? selected : "minidonas";
+  const link = waLink(baseText);
+
+  document.getElementById("mainWA").href = link;
+  document.getElementById("ctaWA").href = link;
+  document.getElementById("floatWA").href = link;
+  document.getElementById("waBtn").href = link;
+}
+
+function selectDonut(name){
+  selected = name;
+
+  document.getElementById("banner").style.display = "flex";
+  document.getElementById("selectedText").innerText = "Seleccionado: " + name;
+
+  document.getElementById("waBtn").innerText = "Pedir " + name;
+
+  updateLinks();
+}
+
 function showTab(id){
-  const tabs = document.querySelectorAll('.grid');
-  tabs.forEach(t => t.style.display='none');
+  document.querySelectorAll('.grid').forEach(g => g.style.display='none');
   document.getElementById(id).style.display='grid';
 
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   event.target.classList.add('active');
 }
+
+updateLinks();
 </script>
 
 </body>
